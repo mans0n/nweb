@@ -29,7 +29,7 @@ char buffer[BUFSIZE];
 static struct sockaddr_in serv_addr;
 
 	printf("client trying to connect to %s and port %d\n",IP_ADDRESS,PORT);
-	if((sockfd = socket(AF_INET, SOCK_STREAM,0)) <0) 
+	if((sockfd = socket(AF_INET, SOCK_STREAM,0)) <0)
 		pexit("socket() failed");
 
 	serv_addr.sin_family = AF_INET;
@@ -37,7 +37,7 @@ static struct sockaddr_in serv_addr;
 	serv_addr.sin_port = htons(PORT);
 
 	/* Connect tot he socket offered by the web server */
-	if(connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) <0) 
+	if(connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) <0)
 		pexit("connect() failed");
 
 	/* Now the sockfd can be used to communicate to the server the GET request */
