@@ -42,11 +42,11 @@ void logger(int type, char *s1, char *s2, int socket_fd)
 	case ERROR: (void)sprintf(logbuffer,"ERROR: %s:%s Errno=%d exiting pid=%d",s1, s2, errno,getpid());
 		break;
 	case FORBIDDEN:
-		(void)write(socket_fd, "HTTP/1.1 403 Forbidden\nContent-Length: 185\nConnection: close\nContent-Type: text/html\n\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\nThe requested URL, file type or operation is not allowed on this simple static file webserver.\n</body></html>\n",271);
+		(void)write(socket_fd, "HTTP/1.1 403 Forbidden\r\nContent-Length: 185\r\nConnection: close\r\nContent-Type: text/html\r\n\r\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\nThe requested URL, file type or operation is not allowed on this simple static file webserver.\n</body></html>\n",276);
 		(void)sprintf(logbuffer,"FORBIDDEN: %s:%s",s1, s2);
 		break;
 	case NOTFOUND:
-		(void)write(socket_fd, "HTTP/1.1 404 Not Found\nContent-Length: 136\nConnection: close\nContent-Type: text/html\n\n<html><head>\n<title>404 Not Found</title>\n</head><body>\n<h1>Not Found</h1>\nThe requested URL was not found on this server.\n</body></html>\n",224);
+		(void)write(socket_fd, "HTTP/1.1 404 Not Found\r\nContent-Length: 136\r\nConnection: close\r\nContent-Type: text/html\r\n\r\n<html><head>\n<title>404 Not Found</title>\n</head><body>\n<h1>Not Found</h1>\nThe requested URL was not found on this server.\n</body></html>\n",229);
 		(void)sprintf(logbuffer,"NOT FOUND: %s:%s",s1, s2);
 		break;
 	case LOG: (void)sprintf(logbuffer," INFO: %s:%s:%d",s1, s2,socket_fd); break;
@@ -75,7 +75,7 @@ void web(int fd, int hit)
 	if(ret > 0 && ret < BUFSIZE)	/* return code is valid chars */
 		buffer[ret]=0;		/* terminate the buffer */
 	else buffer[0]=0;
-	for(i=0;i<ret;i++)	/* remove CF and LF characters */
+	for(i=0;i<ret;i++)	/* remove CR and LF characters */
 		if(buffer[i] == '\r' || buffer[i] == '\n')
 			buffer[i]='*';
 	logger(LOG,"request",buffer,hit);
@@ -113,7 +113,7 @@ void web(int fd, int hit)
 	logger(LOG,"SEND",&buffer[5],hit);
 	len = (long)lseek(file_fd, (off_t)0, SEEK_END); /* lseek to the file end to find the length */
 	      (void)lseek(file_fd, (off_t)0, SEEK_SET); /* lseek back to the file start ready for reading */
-          (void)sprintf(buffer,"HTTP/1.1 200 OK\nServer: nweb\nContent-Length: %ld\nConnection: close\nContent-Type: %s\n\n", len, fstr); /* Header + a blank line */
+          (void)sprintf(buffer,"HTTP/1.1 200 OK\r\nServer: nweb\r\nContent-Length: %ld\r\nConnection: close\r\nContent-Type: %s\r\n\r\n", len, fstr); /* Header + a blank line */
 	logger(LOG,"Header",buffer,hit);
 	(void)write(fd,buffer,strlen(buffer));
 
