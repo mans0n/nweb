@@ -105,7 +105,7 @@ void web(int fd, int hit)
 			break;
 		}
 	}
-	if(fstr == 0) logger(FORBIDDEN,"file extension type not supported",buffer,fd);
+	if(fstr == 0) fstr = "application/octet-stream";
 
 	if(( file_fd = open(&buffer[5],O_RDONLY)) == -1) {  /* open the file for reading */
 		logger(NOTFOUND, "failed to open file",&buffer[5],fd);
