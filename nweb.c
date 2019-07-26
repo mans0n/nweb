@@ -21,7 +21,7 @@ struct {
 	char *filetype;
 } extensions [] = {
 	{"gif", "image/gif" },
-	{"jpg", "image/jpg" },
+	{"jpg", "image/jpeg"},
 	{"jpeg","image/jpeg"},
 	{"png", "image/png" },
 	{"ico", "image/ico" },
@@ -30,7 +30,8 @@ struct {
 	{"tar", "image/tar" },
 	{"htm", "text/html" },
 	{"html","text/html" },
-	{0,0} };
+	{0,0}
+};
 
 void logger(int type, char *s1, char *s2, int socket_fd)
 {
