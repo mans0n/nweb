@@ -9,7 +9,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#define VERSION 23
+
 #define BUFSIZE 8096
 #define ERROR      42
 #define LOG        44
@@ -112,7 +112,7 @@ void web(int fd, int hit)
 	logger(LOG,"SEND",&buffer[5],hit);
 	len = (long)lseek(file_fd, (off_t)0, SEEK_END); /* lseek to the file end to find the length */
 	      (void)lseek(file_fd, (off_t)0, SEEK_SET); /* lseek back to the file start ready for reading */
-          (void)sprintf(buffer,"HTTP/1.1 200 OK\nServer: nweb/%d.0\nContent-Length: %ld\nConnection: close\nContent-Type: %s\n\n", VERSION, len, fstr); /* Header + a blank line */
+          (void)sprintf(buffer,"HTTP/1.1 200 OK\nServer: nweb\nContent-Length: %ld\nConnection: close\nContent-Type: %s\n\n", len, fstr); /* Header + a blank line */
 	logger(LOG,"Header",buffer,hit);
 	(void)write(fd,buffer,strlen(buffer));
 
@@ -133,13 +133,13 @@ int main(int argc, char **argv)
 	static struct sockaddr_in serv_addr; /* static = initialised to zeros */
 
 	if( argc < 3  || argc > 3 || !strcmp(argv[1], "-?") ) {
-		(void)printf("hint: nweb Port-Number Top-Directory\t\tversion %d\n\n"
+		(void)printf("hint: nweb Port-Number Top-Directory\n\n"
 	"\tnweb is a small and very safe mini web server\n"
 	"\tnweb only servers out file/web pages with extensions named below\n"
 	"\t and only from the named directory or its sub-directories.\n"
 	"\tThere is no fancy features = safe and secure.\n\n"
 	"\tExample: nweb 8181 /home/nwebdir &\n\n"
-	"\tOnly Supports:", VERSION);
+	"\tOnly Supports:");
 		for(i=0;extensions[i].ext != 0;i++)
 			(void)printf(" %s",extensions[i].ext);
 
