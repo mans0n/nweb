@@ -162,7 +162,7 @@ int main(int argc, char **argv)
 	/* Become deamon + unstopable and no zombies children (= no wait()) */
 	if(fork() != 0)
 		return 0; /* parent returns OK to shell */
-	(void)signal(SIGCLD, SIG_IGN); /* ignore child death */
+	(void)signal(SIGCHLD, SIG_IGN); /* ignore child death */
 	(void)signal(SIGHUP, SIG_IGN); /* ignore terminal hangups */
 	for(i=0;i<32;i++)
 		(void)close(i);		/* close open files */
