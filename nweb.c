@@ -149,13 +149,6 @@ int main(int argc, char **argv)
 	"\tNo warranty given or implied\n\tNigel Griffiths nag@uk.ibm.com\n"  );
 		exit(0);
 	}
-	if( !strncmp(argv[2],"/"   ,2 ) || !strncmp(argv[2],"/etc", 5 ) ||
-	    !strncmp(argv[2],"/bin",5 ) || !strncmp(argv[2],"/lib", 5 ) ||
-	    !strncmp(argv[2],"/tmp",5 ) || !strncmp(argv[2],"/usr", 5 ) ||
-	    !strncmp(argv[2],"/dev",5 ) || !strncmp(argv[2],"/sbin",6) ){
-		(void)printf("ERROR: Bad top directory %s, see nweb -?\n",argv[2]);
-		exit(3);
-	}
 	if(chdir(argv[2]) == -1){
 		(void)printf("ERROR: Can't Change to directory %s\n",argv[2]);
 		exit(4);
